@@ -1,0 +1,57 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - foodsprint
+
+
+  backend:
+    image: georgeestav/springboot:latest
+    container_name: backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/foodsprint?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      STRIPE_API_KEY: ${STRIPE_API_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - foodsprint
+
+  frontend:
+    image: georgeestav/react-nginx:latest
+    container_name: frontend
+    ports:
+      - "3000:80"
+    networks:
+      - foodsprint
+
+
+
+networks:
+  foodsprint:
+
+volumes:
+  mysql_data:

@@ -1,0 +1,15 @@
+# Copy to application-local.properties and fill in your own values
+
+server.port=8080
+
+# MySQL
+spring.datasource.url=jdbc:mysql://localhost:3306/foodsprint
+spring.datasource.username=CHANGE_ME
+spring.datasource.password=CHANGE_ME
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Stripe test key from the Stripe dashboard
+stripe.api.key=sk_test_CHANGE_ME
+
+# JWT signing secret
+jwt.secret=CHANGE_ME

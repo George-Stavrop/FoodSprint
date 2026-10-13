@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: springboot-configmap
+data:
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-cluster-ip-service:3306/foodsprint"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"

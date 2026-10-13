@@ -1,0 +1,27 @@
+.DS_Store
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
+ssl/
+application-local.properties
+!application-local.properties.example
+
+
+*-secret.yaml
+!*-secret.example.yaml
